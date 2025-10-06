@@ -94,4 +94,20 @@ router.delete('/:id', (req, res) => {
   res.status(200).json({ deleted: deletedUser[0].id }); // 5
 });
 
+// GET /users?search=Carlos
+router.get('/', (req, res) => {
+  const { role, search } = req.query;  // 1
+  let result = users;                  // 2
+
+
+  if (search) {                        // 4
+    result = result.filter(u =>
+      u.name.toLowerCase().includes(search.toLowerCase())
+    );
+  }
+
+  res.status(200).json(result);        // 5
+});
+
+
 module.exports = router;
