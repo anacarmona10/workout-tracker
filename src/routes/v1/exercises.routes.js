@@ -5,7 +5,6 @@ const router = express.Router();
 let exercises = [
   {
     id: "b42f43fb-7b40-4b91-8d36-dc1c6ef27611",
-    idUsuario: "b42f53fa-7b30-4b91-8d36-dc1c6ef27611",
     nombre: "Sentadillas",
     descripcion: "flexiona el cuerpo hacia abajo manteniendo la espalda recta y vuelve a la posición de pie.",
     createdAt: "2025-09-12T12:00:00Z"
@@ -32,23 +31,22 @@ router.get('/:id', (req, res) => {
 
 // POST /users
 router.post('/', (req, res) => {
-  const { name, email, role } = req.body;   // 1
+  const { nombre, descripcion} = req.body;   // 1
 
-  if (!name || !email) {   // 2
-    return res.status(400).json({ error: 'Name y email son requeridos' });
+  if (!nombre || !descripcion) {   // 2
+    return res.status(400).json({ error: 'Nombre y descripción son requeridos' });
   }
 
-  const newUser = {   // 3
+  const newExercise = {   // 3
     id: `${Date.now()}`,  // identificador temporal
-    name,
-    email,
-    role: role || 'user',  // valor por defecto si no envían rol
+    nombre,
+    descripcion,
     createdAt: new Date().toISOString()
   };
 
-  users.push(newUser);   // 4
+  exercises.push(newExercise);   // 4
 
-  res.status(201).json(newUser);   // 5
+  res.status(201).json(newExercise);   // 5
 });
 
 // PUT /users/:id
