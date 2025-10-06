@@ -8,8 +8,8 @@ let users = [
     cedula: "43548881",
     nombre: "Carlos Navia",
     correo: "carlos@example.com",
-    proposito: "Aumentar masa corporal",
     edad: "45",
+    proposito: "Tener mas masa corporal",
     createdAt: "2025-09-12T12:00:00Z"
   }
 ];
@@ -34,17 +34,19 @@ router.get('/:id', (req, res) => {
 
 // POST /users
 router.post('/', (req, res) => {
-  const { name, email } = req.body;   // 1
+  const { nombre, correo, cedula, edad, proposito } = req.body;   // 1
 
-  if (!name || !email) {   // 2
-    return res.status(400).json({ error: 'Name y email son requeridos' });
+  if (!nombre || !correo ||!cedula ||!edad ||!proposito) {   // 2
+    return res.status(400).json({ error: 'Nombre, cedula, correo, edad y proposito son requeridos' });
   }
 
   const newUser = {   // 3
     id: `${Date.now()}`,  // identificador temporal
-    name,
-    email,
-    role: role || 'user',  // valor por defecto si no envían rol
+    cedula,
+    nombre,
+    correo,
+    edad,
+    proposito,
     createdAt: new Date().toISOString()
   };
 
