@@ -29,7 +29,7 @@ router.get('/:id', (req, res) => {
   res.status(200).json(exercise);   // 4
 });
 
-// POST /users
+// POST /exercises
 router.post('/', (req, res) => {
   const { nombre, descripcion} = req.body;   // 1
 
@@ -49,41 +49,40 @@ router.post('/', (req, res) => {
   res.status(201).json(newExercise);   // 5
 });
 
-// PUT /users/:id
+// PUT /exercises/:id
 router.put('/:id', (req, res) => {
   const { id } = req.params;              // 1
-  const { name, email, role } = req.body; // 2
+  const { nombre, descripcion} = req.body; // 2
 
-  const index = users.findIndex(u => u.id === id); // 3
+  const index = exercises.findIndex(e => e.id === id); // 3
   if (index === -1) {                     // 4
-    return res.status(404).json({ error: 'Usuario no encontrado' });
+    return res.status(404).json({ error: 'Ejercicio no encontrado' });
   }
 
-  if (!name || !email) {                  // 5
-    return res.status(400).json({ error: 'Name y email son requeridos' });
+  if (!nombre || !descripcion) {                  // 5
+    return res.status(400).json({ error: 'Nombre y descripcion son requeridos' });
   }
 
-  users[index] = {                        // 6
-    ...users[index], // conserva los datos previos
-    name,
-    email,
-    role
+  exercises[index] = {                        // 6
+    ...exercises[index], // conserva los datos previos
+    nombre,
+    descripcion
   };
 
-  res.status(200).json(users[index]);     // 7
+  res.status(200).json(exercises[index]);     // 7
 });
 
-// DELETE /users/:id
+// DELETE /exercises/:id
 router.delete('/:id', (req, res) => {
   const { id } = req.params;                            // 1
-  const index = users.findIndex(u => u.id === id);      // 2
+  const index = exercises.findIndex(u => u.id === id);      // 2
 
   if (index === -1) {                                   // 3
-    return res.status(404).json({ error: 'Usuario no encontrado' });
+    return res.status(404).json({ error: 'Ejercicio no encontrado' });
   }
 
-  const deletedUser = users.splice(index, 1);           // 4
-  res.status(200).json({ deleted: deletedUser[0].id }); // 5
+  const deletedExercise = exercises.splice(index, 1);           // 4
+  res.status(200).json({ deleted: deletedExercise[0].id }); // 5
 });
 
 // GET /users?role=user&search=Carlos
