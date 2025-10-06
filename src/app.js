@@ -3,6 +3,7 @@ const app = express(); // Create an instance of express
 const { port } = require('./config/env'); // Import the port from the env file
 const usersRouter = require("./routes/v1/users.routes");
 const exercisesRouter = require("./routes/v1/exercises.routes");
+const workoutsRouter = require("./routes/v1/workouts.routes");
 
 // Importar rutas
 const routes = require('./routes');
@@ -20,6 +21,7 @@ app.use('/api', routes);
 
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/exercises", exercisesRouter);
+app.use("api/v1/workouts", workoutsRouter);
 
 // Inicio del servidor
 app.listen(port, () => {
