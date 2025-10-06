@@ -5,11 +5,9 @@ const router = express.Router();
 let users = [
   {
     id: "b42f53fa-7b30-4b91-8d36-dc1c6ef27611",
-    cedula: "43548881",
-    nombre: "Carlos Navia",
-    correo: "carlos@example.com",
-    proposito: "Aumentar masa corporal",
-    edad: "45",
+    name: "Carlos Navia",
+    email: "carlos@example.com",
+    role: "user",
     createdAt: "2025-09-12T12:00:00Z"
   }
 ];
@@ -34,7 +32,7 @@ router.get('/:id', (req, res) => {
 
 // POST /users
 router.post('/', (req, res) => {
-  const { name, email } = req.body;   // 1
+  const { name, email, role } = req.body;   // 1
 
   if (!name || !email) {   // 2
     return res.status(400).json({ error: 'Name y email son requeridos' });
