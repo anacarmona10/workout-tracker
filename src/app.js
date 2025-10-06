@@ -1,7 +1,8 @@
 const express = require("express"); // Import express
 const app = express(); // Create an instance of express
 const { port } = require('./config/env'); // Import the port from the env file
-const usersRouter = require("./routes/v1/users.routes")
+const usersRouter = require("./routes/v1/users.routes");
+const exercisesRouter = require("./routes/v1/exercises.routes");
 
 // Importar rutas
 const routes = require('./routes');
@@ -18,6 +19,7 @@ app.get("/", (req, res) => {
 app.use('/api', routes);
 
 app.use("/api/v1/users", usersRouter);
+app.use("/api/v1/exercises", exercisesRouter);
 
 // Inicio del servidor
 app.listen(port, () => {
