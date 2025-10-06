@@ -85,18 +85,14 @@ router.delete('/:id', (req, res) => {
   res.status(200).json({ deleted: deletedExercise[0].id }); // 5
 });
 
-// GET /users?role=user&search=Carlos
+// GET /exercises?search=Abdominales
 router.get('/', (req, res) => {
-  const { role, search } = req.query;  // 1
-  let result = users;                  // 2
-
-  if (role) {                          // 3
-    result = result.filter(u => u.role === role);
-  }
+  const {search } = req.query;  // 1
+  let result = exercises;                  // 2
 
   if (search) {                        // 4
     result = result.filter(u =>
-      u.name.toLowerCase().includes(search.toLowerCase())
+      u.nombre.toLowerCase().includes(search.toLowerCase())
     );
   }
 
