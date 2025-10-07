@@ -6,7 +6,6 @@ let workouts = [
   {
     id: "b42f53fa-7b30-4b91-8d36",
     idUsuario: "b42f53fa-7b30-4b91-8d36-dc1c6ef27611",
-    idEjercicio: "b42f53fa-8d36-dc1c6ef27611",
     nombre: "Entrenamiento de tren superior",
     descripcion: "Mantén una buena postura, abdomen activo, y controla tanto la subida como la bajada de peso, enfocándote en los músculos como el pecho, la espalda, los hombros, bíceps y tríceps.",
     repeticionesEjercicio: [
@@ -27,9 +26,9 @@ let workouts = [
         }
     ],
     categoria: "Fuerza",
-    Sede: "Aventura",
-    Fecha: "12/10/25",
-    Tiempo: "15 min",
+    sede: "Aventura",
+    fecha: "12/10/25",
+    tiempo: "15 min",
     createdAt: "2025-09-12T12:00:00Z"
   }
 ];
@@ -40,74 +39,84 @@ router.get('/', (req, res) => {
     res.status(200).json(workouts);
 });
 
-// GET /users/:id
+// GET /workouts/:id
 router.get('/:id', (req, res) => {
   const { id } = req.params;   // 1
-  const user = users.find(u => u.id === id);   // 2
+  const workout = workouts.find(u => u.id === id);   // 2
 
-  if (!user) {   // 3
-    return res.status(404).json({ error: 'Usuario no encontrado' });
+  if (!workout) {   // 3
+    return res.status(404).json({ error: 'Entrenamiento no encontrado' });
   }
 
-  res.status(200).json(user);   // 4
+  res.status(200).json(workout);   // 4
 });
 
-// POST /users
+// POST /workouts
 router.post('/', (req, res) => {
-  const { name, email, role } = req.body;   // 1
+  const { idUsuario,  nombre, descripcion, repeticionesEjercicio, categoria, sede, fecha, tiempo} = req.body;   // 1
 
-  if (!name || !email) {   // 2
-    return res.status(400).json({ error: 'Name y email son requeridos' });
+  if (!idUsuario || !nombre || !descripcion || !repeticionesEjercicio || !categoria || !sede || !fecha || !tiempo) {   // 2
+    return res.status(400).json({ error: 'Ingrese todos los datos necesarios' });
   }
 
-  const newUser = {   // 3
+  const newWorkout = {   // 3
     id: `${Date.now()}`,  // identificador temporal
-    name,
-    email,
-    role: role || 'user',  // valor por defecto si no envían rol
+    idUsuario,  
+    nombre, 
+    descripcion, 
+    repeticionesEjercicio, 
+    categoria, 
+    sede, 
+    fecha, 
+    tiempo,
     createdAt: new Date().toISOString()
   };
 
-  users.push(newUser);   // 4
+  workouts.push(newWorkout);   // 4
 
-  res.status(201).json(newUser);   // 5
+  res.status(201).json(newWorkout);   // 5
 });
 
-// PUT /users/:id
+// PUT /workouts/:id
 router.put('/:id', (req, res) => {
   const { id } = req.params;              // 1
-  const { name, email, role } = req.body; // 2
+  const {idUsuario,  nombre, descripcion, repeticionesEjercicio, categoria, sede, fecha, tiempo} = req.body; // 2
 
-  const index = users.findIndex(u => u.id === id); // 3
+  const index = workouts.findIndex(u => u.id === id); // 3
   if (index === -1) {                     // 4
-    return res.status(404).json({ error: 'Usuario no encontrado' });
+    return res.status(404).json({ error: 'Entrenamiento no encontrado' });
   }
 
-  if (!name || !email) {                  // 5
-    return res.status(400).json({ error: 'Name y email son requeridos' });
+  if (!idUsuario || !nombre || !descripcion || !repeticionesEjercicio || !categoria || !sede || !fecha || !tiempo) {                  // 5
+    return res.status(400).json({ error: 'Coloca toda la información' });
   }
 
-  users[index] = {                        // 6
-    ...users[index], // conserva los datos previos
-    name,
-    email,
-    role
+  workouts[index] = {                        // 6
+    ...workouts[index], // conserva los datos previos
+    idUsuario,  
+    nombre, 
+    descripcion, 
+    repeticionesEjercicio, 
+    categoria, 
+    sede, 
+    fecha, 
+    tiempo,
   };
 
-  res.status(200).json(users[index]);     // 7
+  res.status(200).json(workouts[index]);     // 7
 });
 
 // DELETE /users/:id
 router.delete('/:id', (req, res) => {
   const { id } = req.params;                            // 1
-  const index = users.findIndex(u => u.id === id);      // 2
+  const index = workouts.findIndex(u => u.id === id);      // 2
 
   if (index === -1) {                                   // 3
-    return res.status(404).json({ error: 'Usuario no encontrado' });
+    return res.status(404).json({ error: 'Entrenamiento no encontrado' });
   }
 
-  const deletedUser = users.splice(index, 1);           // 4
-  res.status(200).json({ deleted: deletedUser[0].id }); // 5
+  const deletedWorkout = workouts.splice(index, 1);           // 4
+  res.status(200).json({ deleted: deletedWorkout[0].id }); // 5
 });
 
 // GET /users?role=user&search=Carlos
